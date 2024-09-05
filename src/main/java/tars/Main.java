@@ -13,6 +13,8 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
+    private static final int STAGE_MIN_HEIGHT = 220;
+    private static final int STAGE_MIN_WIDTH = 417;
     private Tars tars = new Tars();
 
     /**
@@ -32,8 +34,8 @@ public class Main extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
-            stage.setMinHeight(220);
-            stage.setMinWidth(417);
+            stage.setMinHeight(STAGE_MIN_HEIGHT);
+            stage.setMinWidth(STAGE_MIN_WIDTH);
             fxmlLoader.<MainWindow>getController().setTars(tars);
             stage.show();
         } catch (IOException e) {

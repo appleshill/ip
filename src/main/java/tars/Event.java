@@ -29,24 +29,17 @@ public class Event extends Task {
      */
     public Event(String name, boolean isDone, String from, String to) throws TarsException {
         super(name, isDone);
-        assert from != null && !from.isEmpty() : "Start time 'from' cannot be null or empty.";
-        assert to != null && !to.isEmpty() : "End time 'to' cannot be null or empty.";
         try {
             this.from = DateTimeParser.parse(from);
-            assert this.from != null : "Parsed 'from' date should not be null.";
             this.to = DateTimeParser.parse(to);
-            assert this.to != null : "Parsed 'to' date should not be null.";
         } catch (DateTimeParseException e) {
             throw new TarsException("Invalid date format. Please use the format: yyyy-MM-dd HHmm.");
         }
-        assert this.from.isBefore(this.to) : "'from' time should be before 'to' time.";
     }
 
     public void setFrom(String newFrom) throws TarsException {
-        assert newFrom != null && !newFrom.isEmpty() : "New 'from' date cannot be null or empty.";
         try {
             this.from = DateTimeParser.parse(newFrom);
-            assert this.from.isBefore(this.to) : "'from' time should be before 'to' time after updating.";
         } catch (DateTimeParseException e) {
             throw new TarsException("Invalid date format. Please use the format: yyyy-MM-dd HHmm.");
         }
@@ -55,25 +48,21 @@ public class Event extends Task {
     public void setTo(String newTo) throws TarsException {
         try {
             this.to = DateTimeParser.parse(newTo);
-            assert this.from.isBefore(this.to) : "'from' time should be before 'to' time after updating.";
         } catch (DateTimeParseException e) {
             throw new TarsException("Invalid date format. Please use the format: yyyy-MM-dd HHmm.");
         }
     }
 
     public String getFrom() {
-        assert this.from != null : "'from' date should not be null when retrieving.";
         return DateTimeParser.format(this.from);
     }
 
     public String getTo() {
-        assert this.to != null : "'to' date should not be null when retrieving.";
         return DateTimeParser.format(this.to);
     }
 
     @Override
     public String toString() {
-        assert this.from != null && this.to != null : "'from' and 'to' dates should not be null when generating string representation.";
         return "[E] " + super.toString() + " (from: " + getFrom() + " to: " + getTo() + ")";
     }
 }

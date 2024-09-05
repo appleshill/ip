@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
  * and a label containing text from the speaker.
  */
 public class DialogBox extends HBox {
+    private static final String DIALOG_BOX_FXML = "/view/DialogBox.fxml";
     @FXML
     private Label dialog;
     @FXML
@@ -35,7 +36,7 @@ public class DialogBox extends HBox {
      */
     private DialogBox(String text, Image img) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource(DIALOG_BOX_FXML));
             fxmlLoader.setController(this);
             fxmlLoader.setRoot(this);
             fxmlLoader.load();
@@ -53,7 +54,7 @@ public class DialogBox extends HBox {
     /**
      * Flips the dialog box such that the ImageView is on the left and text on the right.
      */
-    private void flip() {
+    private void flipDialogOrientation() {
         ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
         Collections.reverse(tmp);
         getChildren().setAll(tmp);
@@ -74,15 +75,16 @@ public class DialogBox extends HBox {
     }
 
     /**
-     * Creates a DialogBox for TARS's dialog, with the image on the left and text on the right.
+     * Creates a DialogBox for the user's dialog.
+     * Places the image on the right and the text on the left.
      *
      * @param text the text to be displayed in the dialog.
-     * @param img the image representing TARS.
-     * @return a DialogBox representing TARS's dialog.
+     * @param img the image representing the user.
+     * @return a DialogBox for the user's dialog.
      */
     public static DialogBox getTarsDialog(String text, Image img) {
         var db = new DialogBox(text, img);
-        db.flip();
+        db.flipDialogOrientation();
         return db;
     }
 }

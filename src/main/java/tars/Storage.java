@@ -26,7 +26,6 @@ public class Storage {
      * @param filePath the file path where tasks will be loaded from and saved to.
      */
     public Storage(String filePath) {
-        assert filePath != null && !filePath.isEmpty() : "File path should not be null or empty.";
         this.filePath = filePath;
     }
 
@@ -44,7 +43,6 @@ public class Storage {
     public List<Task> loadTasks() throws TarsException {
         List<Task> tasks = new ArrayList<>();
         File file = new File(filePath);
-        assert file != null : "File object should not be null.";
         if (!file.exists()) {
             return tasks;
         }
@@ -52,7 +50,9 @@ public class Storage {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(" \\| ");
-                assert parts.length >= 3 : "Corrupt data in file. Expected at least 3 parts.";
+                if (parts.length < 3) {
+                    throw new TarsException("Corrupt task data: " + line);
+                }
                 String type = parts[0];
                 boolean isDone = parts[1].equals("1");
                 String description = parts[2];
@@ -102,8 +102,6 @@ public class Storage {
     public void saveTasks(List<Task> tasks) throws TarsException {
         File file = new File(filePath);
         File directory = file.getParentFile();
-        assert file != null : "File object should not be null.";
-        assert directory != null : "Directory object should not be null.";
         if (!directory.exists()) {
             try {
                 directory.mkdirs(); // Create directory
@@ -114,7 +112,6 @@ public class Storage {
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             for (Task task : tasks) {
-                assert task != null : "Task should not be null before saving.";
                 bw.write(taskToFileString(task));
                 bw.newLine();
             }
@@ -141,8 +138,6 @@ public class Storage {
         } else if (task instanceof Event) {
             type = "E";
             additionalInfo = " | " + ((Event) task).getFrom() + " | " + ((Event) task).getTo();
-        } else {
-            assert false : "Unknown task type.";
         }
         return type + " | " + (task.getIsDone() ? "1" : "0") + " | " + task.getName() + additionalInfo;
     }

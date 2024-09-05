@@ -30,7 +30,6 @@ public class Deadline extends Task {
         System.out.println("Creating Deadline task with date: " + date);
         try {
             this.dueDate = DateTimeParser.parse(date);
-            assert this.dueDate != null : "Parsed due date should not be null.";
             System.out.println("Successfully parsed date for Deadline: " + this.dueDate);
         } catch (DateTimeParseException e) {
             System.out.println("Failed to parse date for Deadline: " + date);
@@ -47,9 +46,7 @@ public class Deadline extends Task {
      * @throws TarsException if the new date cannot be parsed into a {@link java.time.LocalDateTime}.
      */
     public String getDate() {
-        assert this.dueDate != null : "Due date should not be null when getting the formatted date.";
         return DateTimeParser.format(this.dueDate);
-
     }
 
     /**

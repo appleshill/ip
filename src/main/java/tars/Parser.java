@@ -16,8 +16,6 @@ public class Parser {
      * @return an array where the first element is the command and the second element is the arguments (if any)
      */
     public static String[] parse(String input) {
-        assert input != null : "Input should not be null.";
-        assert !input.trim().isEmpty() : "Input should not be empty after trimming.";
         String[] result = new String[2];
         String[] splitInput = input.trim().split(" ", 2);
         result[0] = splitInput[0];

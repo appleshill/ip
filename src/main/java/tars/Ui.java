@@ -130,18 +130,4 @@ public class Ui {
         return "There was an error loading tasks.";
     }
 
-    /**
-     * Prints a goodbye message when the application is exiting.
-     */
-    public void printGoodbye() {
-        System.out.println("Bye. Hope to see you again soon!");
-    }
-
-    /**
-     * Prints an error message if there is an issue loading tasks from storage.
-     */
-    public void printLoadingError() {
-        System.out.println("There was an error loading tasks.");
-    }
-
 }
