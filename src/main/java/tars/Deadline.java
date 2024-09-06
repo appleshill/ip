@@ -12,7 +12,9 @@ import java.time.format.DateTimeParseException;
  * methods to get the due date, change the due date, and generate a string representation of the task.
  */
 public class Deadline extends Task {
-
+    private static final String INVALID_DATE_MESSAGE = "Invalid date format. Please use the format: yyyy-MM-dd HHmm.";
+    private static final String NAME_OPTION = "/name";
+    private static final String BY_OPTION = "/by";
     private LocalDateTime dueDate;
 
     /**
@@ -27,13 +29,10 @@ public class Deadline extends Task {
      */
     public Deadline(String name, boolean done, String date) throws TarsException {
         super(name, done);
-        System.out.println("Creating Deadline task with date: " + date);
         try {
             this.dueDate = DateTimeParser.parse(date);
-            System.out.println("Successfully parsed date for Deadline: " + this.dueDate);
         } catch (DateTimeParseException e) {
-            System.out.println("Failed to parse date for Deadline: " + date);
-            throw new TarsException("Invalid date format. Please use the format: yyyy-MM-dd HHmm.");
+            throw new TarsException(INVALID_DATE_MESSAGE);
         }
     }
 
@@ -62,7 +61,7 @@ public class Deadline extends Task {
         try {
             this.dueDate = DateTimeParser.parse(newDate);
         } catch (DateTimeParseException e) {
-            throw new TarsException("Invalid date format. Please use the format: yyyy-MM-dd HHmm.");
+            throw new TarsException(INVALID_DATE_MESSAGE);
         }
     }
 
@@ -76,5 +75,20 @@ public class Deadline extends Task {
     public String toString() {
         return "[D] " + super.toString() + " (by: " + getDate() + ")";
     }
+
+    @Override
+    public void edit(String option, String newValue) throws TarsException {
+        switch (option) {
+        case NAME_OPTION:
+            setName(newValue);
+            break;
+        case BY_OPTION:
+            changeDate(newValue);
+            break;
+        default:
+            throw new TarsException("Invalid edit option for deadline. Use /name or /date.");
+        }
+    }
+
 }
 

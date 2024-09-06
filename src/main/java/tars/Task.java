@@ -9,6 +9,7 @@ package tars;
  * string representation of the task.
  */
 public class Task {
+    private static final String NAME_OPTION = "/name";
     private String name;
     private boolean isDone;
 
@@ -23,6 +24,20 @@ public class Task {
         assert name != null && !name.trim().isEmpty() : "Task name should not be null or empty.";
         this.name = name;
         this.isDone = isDone;
+    }
+
+    /**
+     * Allows editing of the task.
+     * @param option the part of the task to edit (e.g., "/name").
+     * @param newValue the new value to set.
+     * @throws TarsException if the option is not supported by this task type.
+     */
+    public void edit(String option, String newValue) throws TarsException {
+        if (NAME_OPTION.equals(option)) {
+            setName(newValue);
+        } else {
+            throw new TarsException("Invalid edit option for Todo. Only name can be edited.");
+        }
     }
 
     public void setName(String newName) {

@@ -70,7 +70,7 @@ public class TaskList {
      *
      * @throws TarsException if there is an error during the save process.
      */
-    private void saveTasks() throws TarsException {
+    public void saveTasks() throws TarsException {
         assert tasks != null : "Tasks list should not be null when saving.";
         try {
             storage.saveTasks(this.tasks);
@@ -151,4 +151,22 @@ public class TaskList {
         return tasks.size();
     }
 
+    /**
+     * Edits a task at the specified index with the given option and new value, then saves the updated task list.
+     *
+     * @param editIndex the index of the task to be edited
+     * @param option the option specifying what aspect of the task to edit
+     * @param newValue the new value to set for the specified task
+     * @return the updated {@link Task} object after editing
+     * @throws TarsException if {@code editIndex} is out of bounds of the task list
+     */
+    public Task editAndSave(int editIndex, String option, String newValue) throws TarsException {
+        if (editIndex < 0 || editIndex >= tasks.size()) {
+            throw new TarsException(ERROR_OUT_OF_BOUNDS);
+        }
+        Task task = tasks.get(editIndex);
+        task.edit(option, newValue);
+        saveTasks();
+        return task;
+    }
 }

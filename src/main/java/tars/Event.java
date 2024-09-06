@@ -12,7 +12,9 @@ import java.time.format.DateTimeParseException;
  * parsing and formatting of date and time strings.
  */
 public class Event extends Task {
-
+    private static final String NAME_OPTION = "/name";
+    private static final String FROM_OPTION = "/from";
+    private static final String TO_OPTION = "/to";
     private LocalDateTime from;
     private LocalDateTime to;
 
@@ -64,5 +66,22 @@ public class Event extends Task {
     @Override
     public String toString() {
         return "[E] " + super.toString() + " (from: " + getFrom() + " to: " + getTo() + ")";
+    }
+
+    @Override
+    public void edit(String option, String newValue) throws TarsException {
+        switch (option) {
+        case NAME_OPTION:
+            setName(newValue);
+            break;
+        case FROM_OPTION:
+            setFrom(newValue);
+            break;
+        case TO_OPTION:
+            setTo(newValue);
+            break;
+        default:
+            throw new TarsException("Invalid edit option for event. Use /name, /from, or /to.");
+        }
     }
 }

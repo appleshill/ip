@@ -130,4 +130,8 @@ public class Ui {
         return "There was an error loading tasks.";
     }
 
+    public String getEditedTaskResponse(Task editedTask) {
+        return "Got it! I've edited this task:\n  " + editedTask.toString();
+    }
+
 }
